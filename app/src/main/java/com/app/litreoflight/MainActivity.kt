@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Switch
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.gson.Gson
@@ -23,7 +25,27 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+val switch1 : Switch= findViewById(R.id.switch1)
+
+        switch1.setOnCheckedChangeListener { _, isChecked ->
+            AppCompatDelegate.setDefaultNightMode(
+                if (isChecked) AppCompatDelegate.MODE_NIGHT_YES
+                else AppCompatDelegate.MODE_NIGHT_NO
+            )
+        }
     }
+    private var isDarkTheme = false
+
+    private fun toggleTheme() {
+        if (isDarkTheme) {
+            setTheme(R.style.AppTheme_Light)
+        } else {
+            setTheme(R.style.AppTheme_Dark)
+        }
+        recreate() // Recreate the activity to apply the new theme
+        isDarkTheme = !isDarkTheme // Toggle the theme flag
+    }
+
     fun Read()
     {
         val executor = Executors.newSingleThreadExecutor()
