@@ -27,7 +27,8 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-val switch1 : Switch= findViewById(R.id.switch1)
+        
+        val switch1 : Switch= findViewById(R.id.mainSwitch)
 
         switch1.setOnCheckedChangeListener { _, isChecked ->
             AppCompatDelegate.setDefaultNightMode(
@@ -57,18 +58,20 @@ val switch1 : Switch= findViewById(R.id.switch1)
 
     private fun toggleTheme() {
         if (isDarkTheme) {
-            setTheme(R.style.AppTheme_Light)
-        } else {
             setTheme(R.style.AppTheme_Dark)
+
+        } else {
+            setTheme(R.style.AppTheme_Light)
         }
         recreate() // Recreate the activity to apply the new theme
-        isDarkTheme = !isDarkTheme // Toggle the theme flag
+        isDarkTheme = !isDarkTheme
     }
 
     fun Read()
     {
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
+
             //try{
                 val url = URL("https://opsc20240710154110.azurewebsites.net/GetAllLoans")
                 val json = url.readText()
@@ -79,6 +82,7 @@ val switch1 : Switch= findViewById(R.id.switch1)
                     //Log.d("AddNewUser", "Converted Json:" + userList.toString())
                     //var Text = findViewById<TextView>(R.id.txtOutput)
                    // Text.setText(userList.toString())
+
                 }
 
 
