@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Switch
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.gson.Gson
 import java.net.URL
 import java.util.concurrent.Executors
 
@@ -23,13 +23,21 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        Read()
+
+        var toggle: Switch = findViewById(R.id.mainSwitch)
+
+        toggle.setOnCheckedChangeListener { buttonView, isChecked ->
+
+        }
     }
     fun Read()
     {
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
             try{
-                val url = URL("https://opsc20240710154110.azurewebsites.net/GetAllLoans")
+                val url = URL("http://192.168.4.1/")
                 val json = url.readText()
 
 
@@ -37,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d("AddNewUser", "Plain Json Vars:" + json.toString())
                     //Log.d("AddNewUser", "Converted Json:" + userList.toString())
                     var Text = findViewById<TextView>(R.id.txtOutput)
-                   // Text.setText(userList.toString())
+                    Text.setText(url.readText())
                 }
 
 

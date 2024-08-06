@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/mainSwitch"
         android:layout_width="117dp"
         android:layout_height="102dp"
         android:layout_marginStart="-25dp"
