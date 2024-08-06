@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         executor.execute {
 
             //try{
-                val url = URL("https://opsc20240710154110.azurewebsites.net/GetAllLoans")
+                val url = URL("http://192.168.4.1/flickSwitch")
                 val json = url.readText()
 
 
