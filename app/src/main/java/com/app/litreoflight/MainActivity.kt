@@ -6,7 +6,6 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Switch
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -14,11 +13,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.gson.Gson
 import java.net.URL
 import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
+    var Status: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,25 +29,45 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+
         val switch1 : Switch= findViewById(R.id.mainSwitch)
         val bottomNavBar: BottomNavigationView = findViewById(R.id.NavBar)
 
         switch1.setOnCheckedChangeListener { _, isChecked ->
-            Read{ status ->
-                AppCompatDelegate.setDefaultNightMode(
-                if (status) AppCompatDelegate.MODE_NIGHT_YES
+            GetStatus { status ->
+                Status = !status
+
+                if (isChecked && !status) {
+                    FlickSwitch()
+                } else if (!isChecked && status) {
+                    FlickSwitch()
+                }
+            }
+            AppCompatDelegate.setDefaultNightMode(
+                if (Status && isChecked) AppCompatDelegate.MODE_NIGHT_YES
                 else AppCompatDelegate.MODE_NIGHT_NO
             )
-            if (status) {
-                bottomNavBar.setBackgroundColor(ContextCompat.getColor(this, R.color.dark_background))
-                bottomNavBar.itemIconTintList = ContextCompat.getColorStateList(this, R.color.dark_icon_tint)
-                bottomNavBar.itemTextColor = ContextCompat.getColorStateList(this, R.color.dark_text_tint)
+
+            if (Status && isChecked) {
+                bottomNavBar.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.dark_background
+                    )
+                )
+                bottomNavBar.itemIconTintList =
+                    ContextCompat.getColorStateList(this, R.color.dark_icon_tint)
+                bottomNavBar.itemTextColor =
+                    ContextCompat.getColorStateList(this, R.color.dark_text_tint)
             } else {
                 bottomNavBar.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
-                bottomNavBar.itemIconTintList = ContextCompat.getColorStateList(this, R.color.light_icon_tint)
-                bottomNavBar.itemTextColor = ContextCompat.getColorStateList(this, R.color.light_text_tint)
+                bottomNavBar.itemIconTintList =
+                    ContextCompat.getColorStateList(this, R.color.light_icon_tint)
+                bottomNavBar.itemTextColor =
+                    ContextCompat.getColorStateList(this, R.color.light_text_tint)
             }
-            }
+
+
         }
 
         bottomNavBar.setSelectedItemId(R.id.ic_home)
@@ -65,51 +85,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private var isDarkTheme = false
 
-    private fun toggleTheme() {
-        if (isDarkTheme) {
-            setTheme(R.style.AppTheme_Dark)
-
-        } else {
-            setTheme(R.style.AppTheme_Light)
-        }
-        recreate() // Recreate the activity to apply the new theme
-        isDarkTheme = !isDarkTheme
-    }
-
-    fun Read(OnComplete: (Boolean) -> Unit)
+    fun FlickSwitch()
     {
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
-
-            //try{
                 val url = URL("http://192.168.4.1/flickSwitch")
                 val json = url.readText()
-
-                val status = URL("http://192.168.4.1/GetStatus").readText()
-
-                if(status.equals("true")){
-                    OnComplete(true)
-                }else {
-                    OnComplete(false)
-                }
-
-                Handler(Looper.getMainLooper()).post {
-                    Log.d("AddNewUser", "Plain Json Vars:" + json.toString())
-                    //Log.d("AddNewUser", "Converted Json:" + userList.toString())
-                    //var Text = findViewById<TextView>(R.id.txtOutput)
-                   // Text.setText(userList.toString())
-
-                }
-
-
-          //  }
-            /*catch (e:Exception){
-                Log.d("AddNewUser", "Error: "+ e.toString())
-                var Text = findViewById<TextView>(R.id.txtOutput)
-                Text.setText("Error:" + e.toString())
-            }*/
         }
     }
+
+    fun GetStatus (OnComplete: (Boolean) -> Unit){
+        val status = URL("http://192.168.4.1/GetStatus").readText()
+
+        if(status.equals("true")){
+            OnComplete(true)
+        }else {
+            OnComplete(false)
+        }
+    }
+
 }
