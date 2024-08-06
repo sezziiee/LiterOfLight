@@ -31,12 +31,12 @@ class MainActivity : AppCompatActivity() {
         val switch1 : Switch= findViewById(R.id.mainSwitch)
 
         switch1.setOnCheckedChangeListener { _, isChecked ->
-            AppCompatDelegate.setDefaultNightMode(
-                if (isChecked) AppCompatDelegate.MODE_NIGHT_YES
-                else AppCompatDelegate.MODE_NIGHT_NO
-            )
-
-            Read()
+            Read{ status ->
+                AppCompatDelegate.setDefaultNightMode(
+                    if (status) AppCompatDelegate.MODE_NIGHT_YES
+                    else AppCompatDelegate.MODE_NIGHT_NO
+                )
+            }
         }
 
         val bottomNavBar: BottomNavigationView = findViewById(R.id.NavBar)
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         isDarkTheme = !isDarkTheme
     }
 
-    fun Read()
+    fun Read(OnComplete: (Boolean) -> Unit)
     {
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
@@ -78,6 +78,13 @@ class MainActivity : AppCompatActivity() {
                 val url = URL("http://192.168.4.1/flickSwitch")
                 val json = url.readText()
 
+                val status = URL("http://192.168.4.1/GetStatus").readText()
+
+                if(status.equals("true")){
+                    OnComplete(true)
+                }else {
+                    OnComplete(false)
+                }
 
                 Handler(Looper.getMainLooper()).post {
                     Log.d("AddNewUser", "Plain Json Vars:" + json.toString())
