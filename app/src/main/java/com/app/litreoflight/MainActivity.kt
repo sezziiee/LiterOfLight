@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         
-        val switch1 : Switch= findViewById(R.id.switch1)
+        val switch1 : Switch= findViewById(R.id.mainSwitch)
 
         switch1.setOnCheckedChangeListener { _, isChecked ->
             AppCompatDelegate.setDefaultNightMode(
