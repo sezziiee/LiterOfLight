@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.gson.Gson
 import java.net.URL
 import java.util.concurrent.Executors
 
@@ -25,7 +24,8 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-val switch1 : Switch= findViewById(R.id.switch1)
+        
+        val switch1 : Switch= findViewById(R.id.switch1)
 
         switch1.setOnCheckedChangeListener { _, isChecked ->
             AppCompatDelegate.setDefaultNightMode(
@@ -51,7 +51,7 @@ val switch1 : Switch= findViewById(R.id.switch1)
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
             try{
-                val url = URL("https://opsc20240710154110.azurewebsites.net/GetAllLoans")
+                val url = URL("http://192.168.4.1/")
                 val json = url.readText()
 
 
@@ -59,7 +59,7 @@ val switch1 : Switch= findViewById(R.id.switch1)
                     Log.d("AddNewUser", "Plain Json Vars:" + json.toString())
                     //Log.d("AddNewUser", "Converted Json:" + userList.toString())
                     var Text = findViewById<TextView>(R.id.txtOutput)
-                   // Text.setText(userList.toString())
+                    Text.setText(url.readText())
                 }
 
 
