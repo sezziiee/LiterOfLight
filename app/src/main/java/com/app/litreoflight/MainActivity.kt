@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -27,19 +28,27 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        
+
         val switch1 : Switch= findViewById(R.id.mainSwitch)
+        val bottomNavBar: BottomNavigationView = findViewById(R.id.NavBar)
 
         switch1.setOnCheckedChangeListener { _, isChecked ->
             AppCompatDelegate.setDefaultNightMode(
                 if (isChecked) AppCompatDelegate.MODE_NIGHT_YES
                 else AppCompatDelegate.MODE_NIGHT_NO
             )
+            if (isChecked) {
+                bottomNavBar.setBackgroundColor(ContextCompat.getColor(this, R.color.dark_background))
+                bottomNavBar.itemIconTintList = ContextCompat.getColorStateList(this, R.color.dark_icon_tint)
+                bottomNavBar.itemTextColor = ContextCompat.getColorStateList(this, R.color.dark_text_tint)
+            } else {
+                bottomNavBar.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+                bottomNavBar.itemIconTintList = ContextCompat.getColorStateList(this, R.color.light_icon_tint)
+                bottomNavBar.itemTextColor = ContextCompat.getColorStateList(this, R.color.light_text_tint)
+            }
 
             Read()
         }
-
-        val bottomNavBar: BottomNavigationView = findViewById(R.id.NavBar)
 
         bottomNavBar.setSelectedItemId(R.id.ic_home)
         bottomNavBar.setOnNavigationItemSelectedListener{item ->
