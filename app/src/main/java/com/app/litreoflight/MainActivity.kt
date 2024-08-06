@@ -96,12 +96,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun GetStatus (OnComplete: (Boolean) -> Unit){
-        val status = URL("http://192.168.4.1/GetStatus").readText()
+        val executor = Executors.newSingleThreadExecutor()
+        executor.execute {
+            val status = URL("http://192.168.4.1/GetStatus").readText()
 
-        if(status.equals("true")){
-            OnComplete(true)
-        }else {
-            OnComplete(false)
+            if(status.equals("true")){
+                OnComplete(true)
+            }else {
+                OnComplete(false)
+            }
         }
     }
 
