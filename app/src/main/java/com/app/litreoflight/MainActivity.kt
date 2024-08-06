@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
             try{
-                val url = URL("http://192.168.4.1/")
+                val url = URL("http://192.168.4.1/flickSwitch")
                 val json = url.readText()
 
 
