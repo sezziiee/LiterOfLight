@@ -34,7 +34,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/menu"
-        app:navigationIconTint="#FFDA1616"></com.google.android.material.bottomnavigation.BottomNavigationView>
+        app:navigationIconTint="@color/white"></com.google.android.material.bottomnavigation.BottomNavigationView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
