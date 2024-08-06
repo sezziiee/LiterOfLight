@@ -1,5 +1,6 @@
 package com.app.litreoflight
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.Gson
 import java.net.URL
 import java.util.concurrent.Executors
 
@@ -32,6 +35,25 @@ class MainActivity : AppCompatActivity() {
                 if (isChecked) AppCompatDelegate.MODE_NIGHT_YES
                 else AppCompatDelegate.MODE_NIGHT_NO
             )
+
+            Read()
+        }
+
+        val bottomNavBar: BottomNavigationView = findViewById(R.id.NavBar)
+
+        bottomNavBar.setSelectedItemId(R.id.ic_home)
+        bottomNavBar.setOnNavigationItemSelectedListener{item ->
+            when (item.itemId){
+                R.id.ic_Schedule -> {
+                    startActivity(Intent(this, MeActivity::class.java))
+                    true
+                }
+                R.id.ic_Me -> {
+                    startActivity(Intent(this, MeActivity::class.java))
+                    true
+                }
+                else -> false
+            }
         }
     }
     private var isDarkTheme = false
@@ -51,25 +73,27 @@ class MainActivity : AppCompatActivity() {
     {
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
-            try{
-                val url = URL("http://192.168.4.1/")
+
+            //try{
+                val url = URL("http://192.168.4.1/flickSwitch")
                 val json = url.readText()
 
 
                 Handler(Looper.getMainLooper()).post {
                     Log.d("AddNewUser", "Plain Json Vars:" + json.toString())
                     //Log.d("AddNewUser", "Converted Json:" + userList.toString())
-                    var Text = findViewById<TextView>(R.id.txtOutput)
-                    Text.setText(url.readText())
+                    //var Text = findViewById<TextView>(R.id.txtOutput)
+                   // Text.setText(userList.toString())
+
                 }
 
 
-            }
-            catch (e:Exception){
+          //  }
+            /*catch (e:Exception){
                 Log.d("AddNewUser", "Error: "+ e.toString())
                 var Text = findViewById<TextView>(R.id.txtOutput)
                 Text.setText("Error:" + e.toString())
-            }
+            }*/
         }
     }
 }
