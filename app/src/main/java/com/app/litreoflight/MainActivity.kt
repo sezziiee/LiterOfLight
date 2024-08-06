@@ -33,11 +33,12 @@ class MainActivity : AppCompatActivity() {
         val bottomNavBar: BottomNavigationView = findViewById(R.id.NavBar)
 
         switch1.setOnCheckedChangeListener { _, isChecked ->
-            AppCompatDelegate.setDefaultNightMode(
-                if (isChecked) AppCompatDelegate.MODE_NIGHT_YES
+            Read{ status ->
+                AppCompatDelegate.setDefaultNightMode(
+                if (status) AppCompatDelegate.MODE_NIGHT_YES
                 else AppCompatDelegate.MODE_NIGHT_NO
             )
-            if (isChecked) {
+            if (status) {
                 bottomNavBar.setBackgroundColor(ContextCompat.getColor(this, R.color.dark_background))
                 bottomNavBar.itemIconTintList = ContextCompat.getColorStateList(this, R.color.dark_icon_tint)
                 bottomNavBar.itemTextColor = ContextCompat.getColorStateList(this, R.color.dark_text_tint)
@@ -46,8 +47,7 @@ class MainActivity : AppCompatActivity() {
                 bottomNavBar.itemIconTintList = ContextCompat.getColorStateList(this, R.color.light_icon_tint)
                 bottomNavBar.itemTextColor = ContextCompat.getColorStateList(this, R.color.light_text_tint)
             }
-
-            Read()
+            }
         }
 
         bottomNavBar.setSelectedItemId(R.id.ic_home)
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
         isDarkTheme = !isDarkTheme
     }
 
-    fun Read()
+    fun Read(OnComplete: (Boolean) -> Unit)
     {
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
@@ -87,6 +87,13 @@ class MainActivity : AppCompatActivity() {
                 val url = URL("http://192.168.4.1/flickSwitch")
                 val json = url.readText()
 
+                val status = URL("http://192.168.4.1/GetStatus").readText()
+
+                if(status.equals("true")){
+                    OnComplete(true)
+                }else {
+                    OnComplete(false)
+                }
 
                 Handler(Looper.getMainLooper()).post {
                     Log.d("AddNewUser", "Plain Json Vars:" + json.toString())
