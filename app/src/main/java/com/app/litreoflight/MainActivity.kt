@@ -1,5 +1,6 @@
 package com.app.litreoflight
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import java.net.URL
 import java.util.concurrent.Executors
@@ -33,6 +35,23 @@ val switch1 : Switch= findViewById(R.id.switch1)
                 else AppCompatDelegate.MODE_NIGHT_NO
             )
         }
+
+        val bottomNavBar: BottomNavigationView = findViewById(R.id.NavBar)
+
+        bottomNavBar.setSelectedItemId(R.id.ic_home)
+        bottomNavBar.setOnNavigationItemSelectedListener{item ->
+            when (item.itemId){
+                R.id.ic_Schedule -> {
+                    startActivity(Intent(this, MeActivity::class.java))
+                    true
+                }
+                R.id.ic_Me -> {
+                    startActivity(Intent(this, MeActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
     }
     private var isDarkTheme = false
 
@@ -50,7 +69,7 @@ val switch1 : Switch= findViewById(R.id.switch1)
     {
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
-            try{
+            //try{
                 val url = URL("https://opsc20240710154110.azurewebsites.net/GetAllLoans")
                 val json = url.readText()
 
@@ -58,17 +77,17 @@ val switch1 : Switch= findViewById(R.id.switch1)
                 Handler(Looper.getMainLooper()).post {
                     Log.d("AddNewUser", "Plain Json Vars:" + json.toString())
                     //Log.d("AddNewUser", "Converted Json:" + userList.toString())
-                    var Text = findViewById<TextView>(R.id.txtOutput)
+                    //var Text = findViewById<TextView>(R.id.txtOutput)
                    // Text.setText(userList.toString())
                 }
 
 
-            }
-            catch (e:Exception){
+          //  }
+            /*catch (e:Exception){
                 Log.d("AddNewUser", "Error: "+ e.toString())
                 var Text = findViewById<TextView>(R.id.txtOutput)
                 Text.setText("Error:" + e.toString())
-            }
+            }*/
         }
     }
 }
