@@ -35,6 +35,8 @@ class MainActivity : AppCompatActivity() {
                 if (isChecked) AppCompatDelegate.MODE_NIGHT_YES
                 else AppCompatDelegate.MODE_NIGHT_NO
             )
+
+            Read()
         }
 
         val bottomNavBar: BottomNavigationView = findViewById(R.id.NavBar)
