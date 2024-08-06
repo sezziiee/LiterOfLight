@@ -38,12 +38,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun toggleTheme() {
         if (isDarkTheme) {
-            setTheme(R.style.AppTheme_Light)
-        } else {
             setTheme(R.style.AppTheme_Dark)
+
+        } else {
+            setTheme(R.style.AppTheme_Light)
         }
         recreate() // Recreate the activity to apply the new theme
-        isDarkTheme = !isDarkTheme // Toggle the theme flag
+        isDarkTheme = !isDarkTheme
     }
 
     fun Read()
